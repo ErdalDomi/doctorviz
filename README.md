@@ -1,3 +1,5 @@
-# Welcome to Microblog!
+# Data Visualization and Exploration semester project
 
-This is an example application featured in my [Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world). See the tutorial for instructions on how to work with it.
+This application will host the work done on the visualization and exploration. By having a server we intend to make the graphs interactable and provide a platform for future enhancements. 
+
+The server is hosted on pythonanywhere.
