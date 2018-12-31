@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Parallel Coordinates</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <script src="./echarts.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts-en.js"></script>
+</head>
+<body>
+    <h2>Dr. Graph Parallel Axis Demo</h2>
+    <div id="main" style="width: 100%;height: 700px;"></div>
+    <script type="text/javascript">
+        // based on prepared DOM, initialize echarts instance
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // specify chart configuration item and data
+        // Parallel Axis demo for the project 
+        var testData = [
+            [1, '21/04/2014', 5.4, 4.8, 13.2, 40.7, 85.6, 27.7, 32.7, 14, 'nan', 13, 4.49, 3.64, 1.38, 0.43, 0.06, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 0.8, 'nan', 3.6, 'nan', 6, '[<10]', '[<30]', 'nan', '[<30]', 'Negativi', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 158, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 4.14, 11.7, 2.91],
+            [2, '18/07/2014', 6.3, 4.35, 12.7, 38.1, 87.6, 29.3, 33.4, 13.8, 175, 11.7, 4.1, 1.3, 0.8, 0.1, 0, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 0.8, 79, 'nan', 1.016, 6, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 20, 22, 'scarsa flora', 34, 'nan', 20, 16, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+            [3, '27/02/2015', 4.7, 4.7, 13.8, 40.6, 86.4, 29.3, 33.9, 14.1, 155, 10.9, 4.22, 3.95, 1.26, 0.46, 0.11, 18, 140, 4, 2.3, 'nan', 'nan', 'nan', 1.04, 58, 3.8, 1.016, 6, '<10', '<30', '<5', '<0.03', 'Negativi', 'fortemente positivo', 7, 209, 'notevolissima flora', 'nan', 69, 24, 15, 'nan', 142, 'nan', 75, '<0.06', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+            [4, '27/05/2015', 'nan', 'nan', 'nan', 'nan', 83.49, 28.44, 34.07, 11.79, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 142, 4.1, 'nan', 0.77, 'nan', 'nan', 0.89, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 458, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 0.3, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+            [5, '9/6/2016', 4.41, 4.33, 12.3, 36.8, 85, 28.4, 33.4, 13.6, 177, 13, 5.26, 2.81, 1.25, 0.61, 0.07, 38, 139, 3.6, 'nan', 'nan', 1.09, 'nan', 0.98, 70, 'nan', 1.019, 5.5, '<10', '<30', '<5', '<0.03', 'Negativi', 'tracce', 1, 19, 'assenti', 45, 54, 'nan', 11, 'nan', 270, 5.8, 52, '<0.06', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 4.9, 12.5, 'nan'],
+            [6, '31/01/2018', 7.23, 3.88, 10.5, 33.5, 86.3, 27.1, 31.3, 14.6, 207, 12.4, 4.12, 1.75, 1.03, 0.29, 0.04, 39, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 1.29, 50, 4.6, 1.014, 5.5, '<10', '<30', '<5', '<0.03', 'Negativi', 'tracce', 0, 39, 'scarsa flora micr', 45, 179, 33, 31, 'nan', 1303, 21.8, 109, 0.3, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 12.8, 'nan', 'nan'],
+            [7, '1/3/2018', 7.83, 4.52, 12.6, 38.9, 86.1, 27.9, 32.4, 16, 193, 12.8, 4.61, 2.21, 0.73, 0.25, 0.03, 20, 140, 3.4, 2.2, 'nan', 'nan', 'nan', 1.2, 54, 'nan', 'nan', 'nan', '<10', '<30', '<5', 0.06, 'Negativi', 'Negativi', 20, 14, 'scarsa flora micr', 41, 79, 25, 15, 55, 299, 21.6, 103, '<0.06', 44.5, 237, 16.6, 1250, 231, 70, 5.87, 'nan', 'nan'],
+            [8, '4/6/2018', 6.21, 4.22, 11.7, 35.7, 84.6, 27.7, 32.8, 15.3, 237, 12.3, 3.2, 2.13, 0.68, 0.16, 0.04, 27, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 1.5, 41, 5, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 78, 17, 12, 'nan', 641, 'nan', 154, '<0.06', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 3.62, 'nan', 'nan'],
+            [9, '21/06/2018', 7.3, 4.3, 11.9, 36.4, 85.6, 28, 32.7, 15.3, 'nan', 'nan', 5.98, 2.46, 1.21, 0.31, 0.4, 'nan', 141, 4.65, 'nan', 'nan', 'nan', 'nan', 1.41, 45.02, 4.78, 'nan', 6, 'Negativi', 'Negativi', 'Negativi', 'Negativi', 'Negativi', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 158, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 1.45, 14.4, 2.57],
+            [10, '11/7/2018', 6.2, 3.74, 10.4, 32.1, 85.8, 27.8, 32.4, 15.1, 204, 12.4, 3.77, 1.54, 0.65, 0.21, 0.03, 25, 140, 3.5, 2.25, 'nan', 'nan', 44, 1.57, 39, 5.1, 1.013, 5, 'Negativi', 'Negativi', 'Negativi', 'Negativi', 'Negativi', 'tracce', 20, 29, 'scarsa flora micr', 51, 108, 16, 11, 'nan', 788, 'nan', 'nan', '<0.06', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+            [11, '26/07/2018', 6.8, 4.18, 11.6, 36, 86.1, 27.8, 32.2, 14.4, 212, 12.6, 4.11, 1.61, 0.81, 0.23, 0.04, 'nan', 139, 4, 2.22, 'nan', 1.06, 41, 1.33, 48, 4.1, 'nan', 5.5, '<10', '<30', '<5', 0.06, 'Negativi', 'Negativi', 0, 2, 'assenti', 9, 'nan', 'nan', 'nan', 51, 565, 'nan', 77, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+            [12, '14/08/2018', 5.61, 4.25, 12, 36.3, 85.4, 28.2, 33.1, 14.1, 220, 12.2, 3.33, 1.24, 0.71, 0.28, 0.05, 30, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 1.39, 45, 'nan', 1.015, 5.5, '<10', '<30', '<5', 0.06, 'Negativi', 'Negativi', 0, 9, 'assenti', 18, 'nan', 12, 'nan', 'nan', 862, 'nan', 'nan', '<0.06', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+            [13, '25/09/2018', 5.93, 4.66, 12.8, 39.8, 85.4, 27.5, 32.2, 13.4, 'nan', 12.3, 3.13, 1.78, 0.84, 0.15, 0.03, 'nan', 138, 4.4, 2.5, 0.745, 'nan', 'nan', 1.45, 43, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 87, 16, 28, 'nan', 371, 'nan', 58.8, 0.09, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 1.87, 17.38, 'nan'],
+            [14, '16/10/2018', 5.61, 4.38, 11.8, 37, 84.7, 26.9, 31.8, 13.7, 197, 13, 3.41, 1.32, 0.61, 0.24, 0.03, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 1.38, 46, 'nan', 1.015, 6.5, 20, '<30', '<5', 0.06, 'Negativi', 'Negativi', 3, 12, 'asse', 24, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'], 
+            [15, '12/11/2018', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', '<0', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 1.5, 41, 'nan', 'nan', 5, '<10', '<30', '<5', '<0.03', 'Negativi', 'Negativo', 15, 12, 'scarsa flora micr', 31, 111, 24, 11, 'nan', 'nan', 'nan', 'nan', '<0.06', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 2.24, 'nan', 'nan'],
+            [16, '4/12/2018', 5.01, 4.17, 11.3, 35.3, 84.7, 27.1, 32, 15.5, 186, 12.6, 2.52, 1.61, 0.61, 0.23, 0.04, 'nan', 139, 3.8, 2.24, 'nan', 1.03, 52, 1.41, 44, 4.4, 1.011, 5, '<10', '<30', '<5', '<0.03', 'Negativi', 'Negativo', 0, 6, 'assenti', 5, 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+        ];
+
+        var schema = [	 	 	 	 	 	 	 	
+            {name: 'ID', index: 0, text: 'ID'},
+            {name: 'Date', index: 1, text: 'Date'},
+            {name: 'Leucociti', index: 2, text: 'Leucociti'},
+            {name: 'Eritrociti', index: 3, text: 'Eritrociti'},
+            {name: 'Emoglobina', index: 4, text: 'Emoglobina'},
+            {name: 'Ematocrito', index: 5, text: 'Ematocrito'},
+            {name: 'MCV', index: 6, text: 'MCV'},
+            {name: 'MCH ', index: 7, text: 'MCH'},
+            {name: 'MCHC', index: 8, text: 'MCHC'},
+            {name: 'RDW', index: 9, text: 'RDW'},
+            {name: 'MPV', index: 10, text: 'MPV'},
+            {name: 'Neutrofili', index: 11, text: 'Neutrofili'},
+            {name: 'Leucociti', index: 12, text: 'Leucociti'},
+            {name: 'Linfociti', index: 13, text: 'Linfociti'},
+            {name: 'Monociti', index: 14, text: 'Monociti'},
+            {name: 'Eosinofili', index: 15, text: 'Eosinofili'},
+            {name: 'Basofili', index: 16, text: 'Basofili'},
+            {name: 'VES', index: 17, text: 'VES'},
+            {name: 'Sodio', index: 18, text: 'Sodio'},
+            {name: 'Potassio', index: 19, text: 'Potassio'},
+            {name: 'Calcio', index: 20, text: 'Calcio'},
+            {name: 'Magnesium', index: 21, text: 'Magnesium'},
+            {name: 'Fosfato ', index: 22, text: 'Fosfato'},
+            {name: 'Urea', index: 23, text: 'Urea'},
+            {name: 'Creatinina', index: 24, text: 'Creatinina'},
+            {name: 'eGFR', index: 25, text: 'eGFR'},
+            {name: 'Acido Urico', index: 26, text: 'Acido Urico'},
+            {name: 'Peso specifico', index: 27, text: 'Peso specifico'},
+            {name: 'pH', index: 28, text: 'pH'},
+            {name: 'Protenuria', index: 29, text: 'Protenuria'},
+            {name: 'Chetonuria', index: 30, text: 'Chetonuria'},
+            {name: 'Emoglobina', index: 31, text: 'Emoglobina'},
+            {name: 'Nitriti ', index: 32, text: 'Nitriti'},
+            {name: 'Esterasi leucocitaria', index: 33, text: 'Esterasi leucocitaria'},
+            {name: 'Emazie', index: 34, text: 'Emazie'},
+            {name: 'Batteri', index: 35, text: 'Batteri'},
+            {name: 'Cellule Epiteliali', index: 36, text: 'Cellule Epiteliali'},
+            {name: 'Creatinchinasi', index: 37, text: 'Creatinchinasi'},
+            {name: 'Aspartato aminotrasferasi', index: 38, text: 'Aspartato aminotrasferasi'},
+            {name: 'Alanina aminotrasferasi', index: 39, text: 'Alanina aminotrasferasi'},
+            {name: 'Sideremia', index: 40, text: 'Sideremia'},
+            {name: 'NT proNBP', index: 41, text: 'NT proNBP'},
+            {name: 'hs cTnT', index: 42, text: 'hs cTnT'},
+            {name: 'Ferritinina', index: 43, text: 'Ferritinina'},
+            {name: 'Proteina C-reattiva', index: 44, text: 'Proteina C-reattiva'},
+            {name: 'Mioglobina', index: 45, text: 'Mioglobina'},
+            {name: 'Transferrina', index: 46, text: 'Transferrina'},
+            {name: 'Saturazione Transferrina', index: 47, text: 'Saturazione Transferrina'},
+            {name: 'IGG', index: 48, text: 'IGG'},
+            {name: 'IGA', index: 49, text: 'IGA'},
+            {name: 'IGM', index: 50, text: 'IGM'},
+            {name: 'TSH', index: 51, text: 'TSH'},
+            {name: 'FT4', index: 52, text: 'FT4'},
+            {name: 'FT3', index: 53, text: 'FT3'},
+        ];
+
+        var lineStyle = {
+            normal: {
+                width: 1,
+                opacity: 0.8
+            },
+        };
+
+        var option = {
+            color: [
+                '#FF851B'
+            ],
+            legend: {
+                top: 10,
+                data: ['Show/Hide Data'],
+            },
+            parallelAxis: [
+                {dim: 0, name: schema[0].text, inverse: true, max: 31, nameLocation: 'start'},
+                {dim: 1, name: schema[1].text},
+                {dim: 2, name: schema[2].text},
+                {dim: 3, name: schema[3].text},
+                {dim: 4, name: schema[4].text},
+                {dim: 5, name: schema[5].text},
+                {dim: 6, name: schema[6].text},
+                {dim: 7, name: schema[7].text},
+                {dim: 8, name: schema[8].text},
+                {dim: 9, name: schema[9].text},
+                {dim: 10, name: schema[10].text},
+                {dim: 11, name: schema[11].text},
+                {dim: 12, name: schema[12].text},
+                {dim: 13, name: schema[13].text},
+                {dim: 14, name: schema[14].text},
+                {dim: 15, name: schema[15].text},
+                {dim: 16, name: schema[16].text},
+                {dim: 17, name: schema[17].text},
+                {dim: 18, name: schema[18].text},
+                {dim: 19, name: schema[19].text},
+                {dim: 20, name: schema[20].text},
+                {dim: 21, name: schema[21].text},
+                {dim: 22, name: schema[22].text},
+                {dim: 23, name: schema[23].text},
+                {dim: 24, name: schema[24].text},
+                {dim: 25, name: schema[25].text},
+                {dim: 26, name: schema[26].text},
+                {dim: 27, name: schema[27].text},
+                {dim: 28, name: schema[28].text},
+                {dim: 29, name: schema[29].text},
+                {dim: 30, name: schema[30].text},
+                {dim: 31, name: schema[31].text},
+                {dim: 32, name: schema[32].text},
+                {dim: 33, name: schema[33].text},
+                {dim: 34, name: schema[34].text},
+                {dim: 35, name: schema[35].text},
+                {dim: 36, name: schema[36].text},
+                {dim: 37, name: schema[37].text},
+                {dim: 38, name: schema[38].text},
+                {dim: 39, name: schema[39].text},
+                {dim: 40, name: schema[40].text},
+                {dim: 41, name: schema[41].text},
+                {dim: 42, name: schema[42].text},
+                {dim: 43, name: schema[43].text},
+                {dim: 44, name: schema[44].text},
+                {dim: 45, name: schema[45].text},
+                {dim: 46, name: schema[46].text},
+                {dim: 47, name: schema[47].text},
+                {dim: 48, name: schema[48].text},
+                {dim: 49, name: schema[49].text},
+                {dim: 50, name: schema[50].text},
+                {dim: 51, name: schema[51].text},
+                {dim: 52, name: schema[52].text},
+                {dim: 53, name: schema[53].text},
+            ],
+            parallel: {
+                top: '30%',
+                left: '3%',
+                right: '3%',
+                axisExpandable: true,
+                axisExpandCenter: 5,
+                axisExpandCount: 7,
+                axisExpandWidth: 70,
+                axisExpandTriggerOn: 'mousemove',
+
+                parallelAxisDefault: {
+                    type: 'value',
+                    nameLocation: 'start',
+                    nameRotate: 25,
+                    nameGap: 25,
+                    
+                    nameTextStyle: {
+                        fontSize: 14
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: true
+                    },
+                    nameLocation: 'end',
+                }
+                
+            },
+            series: [
+                {
+                    name: 'Show/Hide Data',
+                    type: 'parallel',
+                    lineStyle: lineStyle,
+                    data: testData
+                },
+            
+            ]
+        };
+    
+        // use configuration item and data specified to show chart
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
