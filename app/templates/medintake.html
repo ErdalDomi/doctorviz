@@ -1,0 +1,47 @@
+{%extends 'main.html'%} {%block content%}
+
+<h2>Medication intake</h2>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  google.charts.load("current", {packages:["timeline"]});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+
+    var container = document.getElementById('example3.1');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn({ type: 'string', id: 'Position' });
+    dataTable.addColumn({ type: 'string', id: 'Name' });
+    dataTable.addColumn({ type: 'date', id: 'Start' });
+    dataTable.addColumn({ type: 'date', id: 'End' });
+    dataTable.addRows([
+      [ 'Plaquentil', '200mg 1-0-0', new Date(2014, 6, 14), new Date(2014, 10, 12) ],
+      [ 'Adelat crono', '20mg 0-1-0', new Date(2014, 6, 14), new Date(2017, 4, 23)],
+      [ 'Adelat crono', '30mg 0-1-0', new Date(2017, 4, 23), new Date(2018, 4, 28)],
+      [ 'Adelat crono', '30mg 1-0-1', new Date(2018, 4, 28), new Date(2018, 11, 12)],
+      [ 'Cardioaspirina', '100mg 0-1-1', new Date(2014, 6, 14), new Date(2018, 4, 28)],
+      [ 'Enapren', '5mg 0-0-1', new Date(2014, 6, 14), new Date(2017, 5, 20)],
+      [ 'Enapren', '20mg 0-0-1', new Date(2018, 1, 1), new Date(2018, 4, 28)],
+      [ 'Enapren', '20mg 1-0-1', new Date(2018, 4, 28), new Date(2018, 11, 12)],
+      [ 'Dibase', 'Every 6 months', new Date(2014, 6, 14), new Date(2018, 11, 12)],
+      [ 'Iloprost', '', new Date(2014, 6, 14), new Date(2018, 11, 12)],
+      [ 'Pantorc', '40mg 1-0-0', new Date(2016, 5, 30), new Date(2018, 11, 12)],
+      [ 'Bosentan', '125mg 1-0-1', new Date(2014, 6, 14), new Date(2018, 11, 12)],
+      [ 'Revatio', '20mg 1-1-1', new Date(2016, 6, 26), new Date(2018, 11, 12)],
+      [ 'Augmentin clacid', '', new Date(2018, 1, 30), new Date(2018, 2, 16)],
+      [ 'Eutirox', '50ug 1-0-0', new Date(2018, 1, 5), new Date(2018, 4, 28)],
+      [ 'Eutirox', '75ug 1-0-0', new Date(2018, 4, 28), new Date(2018, 11, 12)],
+      [ 'Deltacortene', '25mg 1/2-0-0', new Date(2018, 1, 5), new Date(2018, 11, 12)]
+    ]);
+
+    chart.draw(dataTable);
+  }
+
+</script>
+
+<div id="example3.1" style="height: 3000px;"></div>
+
+
+{%endblock%}

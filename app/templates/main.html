@@ -38,6 +38,8 @@
     <!--<link href="../static/assets/dist/css/stylehealth-rtl.css" rel="stylesheet" type="text/css"/>-->
     <!-- End Theme Layout Style
         =====================================================================-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts-en.js"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -83,19 +85,19 @@
                 <!-- sidebar menu -->
                 <ul class="sidebar-menu">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-hospital-o"></i><span>Dashboard</span>
+                        <a href="{{url_for('index')}}"><i class="fa fa-hospital-o"></i><span>Dashboard</span>
                                         </a>
                     </li>
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-user"></i><span>Patient Timeline</span>
+                        <a href="{{url_for('timeline')}}"><i class="fa fa-user"></i><span>Patient Timeline</span>
                                         </a>
                     </li>
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-medkit"></i><span>Medication Intake</span>
+                        <a href="{{url_for('medintake')}}"><i class="fa fa-medkit"></i><span>Medication Intake</span>
                                         </a>
                     </li>
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-pie-chart"></i><span>Analysis visualization</span>
+                        <a href="{{url_for('visualization')}}"><i class="fa fa-pie-chart"></i><span>Analysis visualization</span>
                                         </a>
                     </li>
                 </ul>
@@ -129,7 +131,9 @@
             <div class="content">
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
+                        {%block content%}
 
+                        {%endblock%}
                     </div>
                 </div>
             </div>

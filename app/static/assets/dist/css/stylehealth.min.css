@@ -5462,3 +5462,7 @@ input[type=radio]:checked~label {
     margin-bottom: 15px;
     text-align: center
 }
+
+#chart_div > div {
+    margin: auto;
+}
